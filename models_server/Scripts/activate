@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\development\ML_Server\models_server"
+VIRTUAL_ENV="C:\development\Machine-Learning-Models-Server\models_server"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
