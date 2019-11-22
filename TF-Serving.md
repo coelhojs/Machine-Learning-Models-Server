@@ -1,0 +1,11 @@
+# TF-Serving
+
+## vera_species
+
+### Download da Imagem Docker do TF-Serving:
+
+    `docker pull tensorflow/serving`
+
+### Servidor de classificação de espécies do Vera:
+
+    `docker run -p 8501:8501 --mount type=bind,source=C:\development\Machine-Learning-Models-Server\tensorflow_serving\vera_species,target=/models/vera_species -e MODEL_NAME=vera_species -t tensorflow/serving &`
