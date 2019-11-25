@@ -1,5 +1,10 @@
 Flask
 matplotlib
 numpy
+opencv-python
+pandas
+pycocotools
 requests
+scikit-image
+shutil
 tensorflow

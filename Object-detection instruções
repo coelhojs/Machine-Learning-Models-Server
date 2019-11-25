@@ -1,0 +1,14 @@
+
+Inicializando ambiente object-detection:
+
+A partir da pasta /tensorflow:
+
+	set PYTHONPATH=C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\models;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\models;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\datasets;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\deployment;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\nets;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\preprocessing;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\scripts;
+
+
+	for /f %i in ('dir /b object_detection\protos\*.proto') do protoc object_detection\protos\%i --python_out=.
+
+	pip install .
+
+
+	python object_detection/preprocessing/generate_tfrecord_base_itens.py --label=C:/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/label_map.pbtxt --csv_input=C:/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/train_labels.csv --output_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/images/train.record --img_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/images/train
