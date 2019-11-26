@@ -4,15 +4,15 @@
 
 ### Criação do ambiente dentro da pasta raiz:
 
-	python -m venv envs/models_server
+	python -m venv env/models_server
 	
 ### Ativação do ambiente virtual:
 	
-	envs\models_server\Scripts\activate
+	env\models_server\Scripts\activate
 	
 ### Instalar o Flask e dependências do projeto:
 
-	pip install Flask numpy requests tensorflow
+	pip install -r requirements.txt
 	
 ### Para subir o servidor:
 
