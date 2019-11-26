@@ -1,10 +1,12 @@
 Flask
+Cython
 matplotlib
 numpy
 opencv-python
 pandas
-pycocotools
+pillow
+#pycocotools
 requests
 scikit-image
-shutil
-tensorflow
+#shutil
+tensorflow==1.15

@@ -1,14 +1,34 @@
-
 Inicializando ambiente object-detection:
+
+Renomear imports como:
+	"from deployment" para "from slim.deployment"
 
 A partir da pasta /tensorflow:
 
-	set PYTHONPATH=C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\models;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\models;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\datasets;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\deployment;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\nets;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\preprocessing;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\slim\scripts;
-
+	set PYTHONPATH=C:\development\Machine-Learning-Models-Server;C:\development\Machine-Learning-Models-Server\tensorflow\slim;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\models;C:\development\Machine-Learning-Models-Server\tensorflow\slim;C:\development\Machine-Learning-Models-Server\tensorflow\slim\datasets;C:\development\Machine-Learning-Models-Server\tensorflow\slim\deployment;C:\development\Machine-Learning-Models-Server\tensorflow\slim\nets;C:\development\Machine-Learning-Models-Server\tensorflow\slim\preprocessing;C:\development\Machine-Learning-Models-Server\tensorflow\slim\scripts;
 
 	for /f %i in ('dir /b object_detection\protos\*.proto') do protoc object_detection\protos\%i --python_out=.
 
 	pip install .
 
+1.AVERIGUAR ESSES PATCHES 
+2.USAR O faster_rcnn_inception_v2_coco - https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 
-	python object_detection/preprocessing/generate_tfrecord_base_itens.py --label=C:/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/label_map.pbtxt --csv_input=C:/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/train_labels.csv --output_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/images/train.record --img_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/images/train
+# patch tf1 into `utils.ops`
+utils_ops.tf = tf.compat.v1
+
+# Patch the location of gfile
+tf.gfile = tf.io.gfile
+
+Geração dos TFRecords:
+
+	WSL:
+		python generate_tfrecord_base_itens.py --label=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/label_map.pbtxt --csv_input=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/train_labels.csv --output_path=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/images/train.record --img_path=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/images/train
+		python generate_tfrecord_base_itens.py --label=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/label_map.pbtxt --csv_input=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/test_labels.csv --output_path=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/images/test.record --img_path=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/images/test
+
+	CMD:
+		python object_detection/preprocessing/generate_tfrecord_base_itens.py --label=C:/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/label_map.pbtxt --csv_input=C:/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/train_labels.csv --output_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/images/train.record --img_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/images/train
+
+Treinamento:
+	python object_detection/train.py --logtostderr --train_dir=C:/development/Machine-Learning-Models-Vera/vera_base_itens/training/ --pipeline_config_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/training/ssd_inception_v2_coco.config
+		

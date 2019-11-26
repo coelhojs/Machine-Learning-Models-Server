@@ -4,11 +4,11 @@
 
 ### Criação do ambiente dentro da pasta raiz:
 
-	python -m venv models_server
+	python -m venv envs/models_server
 	
 ### Ativação do ambiente virtual:
 	
-	models_server\Scripts\activate
+	envs\models_server\Scripts\activate
 	
 ### Instalar o Flask e dependências do projeto:
 
