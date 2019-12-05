@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "C:\\Program Files\\Python37\\python.exe"
+    "python.pythonPath": "C:\\development\\Machine-Learning-Models-Server\\env\\models_server\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

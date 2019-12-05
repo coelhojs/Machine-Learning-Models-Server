@@ -9,12 +9,11 @@ from flask import Flask, request, jsonify
 from tensorflow.keras.applications import inception_v3
 from tensorflow.keras.preprocessing import image
 
-from img_utils import pre_process
+from tensorflow_scripts.image_classification.img_utils import pre_process
 
 # from flask_cors import CORS
 
 app = Flask(__name__)
-
 
 # Uncomment this line if you are making a Cross domain request
 # CORS(app)
@@ -25,18 +24,17 @@ def hello_world():
     return 'Hello, World!'
 
 
-@app.route('/vera_species/', methods=['POST'])
+@app.route('/vera_species/classify/', methods=['POST'])
 def image_classifier():
-    
+
     # Obtém a imagem a partir do url path informado pelo cliente:
     # Converte o arquivo num float array
     response = request.json['data']
     formatted_json_input = pre_process(response)
 
-    #TODO: Verificar se essa linha é necessária
+    # TODO: Verificar se essa linha é necessária
     # this line is added because of a bug in tf_serving(1.10.0-dev)
     #img = img.astype('float16')
-
 
     # Making POST request
     headers = {"content-type": "application/json"}
@@ -50,26 +48,4 @@ def image_classifier():
     return jsonify(inception_v3.decode_predictions(np.array(pred['predictions']))[0])
 
 
-# @app.route('/imageclassifier/predict/', methods=['POST'])
-# def image_classifier():
-#     # Decoding and pre-processing base64 image
-#     img = image.img_to_array(image.load_img(BytesIO(base64.b64decode(request.form['b64'])),
-#                                             target_size=(224, 224))) / 255.
-
-#     # this line is added because of a bug in tf_serving(1.10.0-dev)
-#     img = img.astype('float16')
-
-#     # Creating payload for TensorFlow serving request
-#     payload = {
-#         "instances": [{'input_image': img.tolist()}]
-#     }
-
-#     # Making POST request
-#     r = requests.post(
-#         'http://localhost:9000/v1/models/ImageClassifier:predict', json=payload)
-
-#     # Decoding results from TensorFlow Serving server
-#     pred = json.loads(r.content.decode('utf-8'))
-
-#     # Returning JSON response to the frontend
-#     return jsonify(inception_v3.decode_predictions(np.array(pred['predictions']))[0])
+# @app.route('/vera_species/retrain/', methods=['POST'])

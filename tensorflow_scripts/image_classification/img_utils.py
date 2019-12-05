@@ -1,9 +1,12 @@
 import json
 import numpy as np
 
-from utils import plot_util
 from PIL import Image
 
+def load_image_into_numpy_array(image):
+  (im_width, im_height) = image.size
+  return np.array(image.getdata()).reshape(
+      (im_height, im_width, 3)).astype(np.uint8)
 
 def pre_process(image_path):
     """
@@ -17,7 +20,7 @@ def pre_process(image_path):
     """
 
     image = Image.open(image_path).convert("RGB")
-    image_np = plot_util.load_image_into_numpy_array(image)
+    image_np = load_image_into_numpy_array(image)
 
     # Expand dims to create  bach of size 1
     image_tensor = np.expand_dims(image_np, 0)
