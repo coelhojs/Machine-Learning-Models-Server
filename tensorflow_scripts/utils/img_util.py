@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import tensorflow as tf
 
 from PIL import Image
 
@@ -32,11 +33,17 @@ def classification_pre_process(image_path):
 
 def object_detection_pre_process(image_path):
     image = Image.open(image_path).convert("RGB")
-    image_np = load_image_into_numpy_array(image)
+    #image_np = load_image_into_numpy_array(image)
+
+    image = np.asarray(image)
+    # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
+    input_tensor = tf.convert_to_tensor(image)
+
 
     # Expand dims to create  bach of size 1
-    image_tensor = np.expand_dims(image_np, 0)
-    formatted_json_input = json.dumps(
-        {"signature_name": "serving_default", "instances": image_tensor.tolist()})
+    #image_tensor = np.expand_dims(image_np, 0)
+    # formatted_json_input = json.dumps(
+    #     {"signature_name": "serving_default", "instances": input_tensor})
 
-    return formatted_json_input
+    # return formatted_json_input
+    return input_tensor
