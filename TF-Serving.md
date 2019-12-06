@@ -12,4 +12,4 @@
 
 ### Servidor de detecção de objetos do Vera:
 
-    docker run -p 8502:8502 --mount type=bind,source=C:\development\Machine-Learning-Models-Server\tensorflow_serving\vera_poles_trees,target=/models/vera_poles_trees -e MODEL_NAME=vera_poles_trees -t tensorflow/serving &
+    docker run -p 8500:8501 --mount type=bind,source=C:\development\Machine-Learning-Models-Server\tensorflow_serving\vera_poles_trees,target=/models/vera_poles_trees -e MODEL_NAME=vera_poles_trees -t tensorflow/serving &

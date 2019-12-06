@@ -1,5 +1,6 @@
 Flask
 Cython
+grpcio
 matplotlib
 numpy
 opencv-python

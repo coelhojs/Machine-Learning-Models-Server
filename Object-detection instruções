@@ -5,14 +5,14 @@ Renomear imports como:
 
 A partir da pasta /tensorflow:
 
-	set PYTHONPATH=C:\development\Machine-Learning-Models-Server;C:\development\Machine-Learning-Models-Server\tensorflow\slim;C:\development\Machine-Learning-Models-Server\tensorflow\object_detection\models;C:\development\Machine-Learning-Models-Server\tensorflow\slim;C:\development\Machine-Learning-Models-Server\tensorflow\slim\datasets;C:\development\Machine-Learning-Models-Server\tensorflow\slim\deployment;C:\development\Machine-Learning-Models-Server\tensorflow\slim\nets;C:\development\Machine-Learning-Models-Server\tensorflow\slim\preprocessing;C:\development\Machine-Learning-Models-Server\tensorflow\slim\scripts;
+	set PYTHONPATH=C:\development\Machine-Learning-Models-Server;C:\development\Machine-Learning-Models-Server\tensorflow_scripts\slim;C:\development\Machine-Learning-Models-Server\tensorflow_scripts\object_detection\models;C:\development\Machine-Learning-Models-Server\tensorflow_scripts\slim;C:\development\Machine-Learning-Models-Server\tensorflow_scripts\slim\datasets;C:\development\Machine-Learning-Models-Server\tensorflow_scripts\slim\deployment;C:\development\Machine-Learning-Models-Server\tensorflow_scripts\slim\nets;C:\development\Machine-Learning-Models-Server\tensorflow_scripts\slim\preprocessing;C:\development\Machine-Learning-Models-Server\tensorflow_scripts\slim\scripts;
 
-	for /f %i in ('dir /b object_detection\protos\*.proto') do protoc object_detection\protos\%i --python_out=.
+	for /f %i in ('dir /b tensorflow_scripts\object_detection\protos\*.proto') do protoc tensorflow_scripts\object_detection\protos\%i --python_out=.
 
 	pip install .
 
 1.AVERIGUAR ESSES PATCHES 
-2.USAR O faster_rcnn_inception_v2_coco - https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
+2.USAR O faster_rcnn_inception_v2_coco - https:/github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 
 # patch tf1 into `utils.ops`
 utils_ops.tf = tf.compat.v1
