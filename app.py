@@ -66,7 +66,6 @@ def object_detection():
     image_path = request.json['data']
     server_url = "http://localhost:8501/v1/models/vera_poles_trees:predict"
     output_image = 'tf_output.json'
-    save_output_image = False
     path_to_labels = 'tensorflow_serving/vera_poles_trees/1/label_map.pbtxt'
 
     # Build input data
@@ -91,9 +90,9 @@ def object_detection():
     # Save output on disk
     print(f'\n\nSaving output to {output_image}\n\n')
     with open(output_image, 'w+') as outfile:
-        json.dump(json.loads(server_response.text), outfile)
+        json.dump(json.loads(output_dict), outfile)
     print(f'Output saved!\n')
 
-    return jsonify(server_response.text)
+    return output_dict
 
 # @app.route('/vera_species/retrain/', methods=['POST'])
