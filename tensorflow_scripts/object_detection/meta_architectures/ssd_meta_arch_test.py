@@ -24,7 +24,7 @@ from tensorflow.contrib import slim as contrib_slim
 from object_detection.meta_architectures import ssd_meta_arch
 from object_detection.meta_architectures import ssd_meta_arch_test_lib
 from object_detection.protos import model_pb2
-from object_detection.utils import test_utils
+from tensorflow_scripts.utils import test_utils
 
 slim = contrib_slim
 keras = tf.keras.layers

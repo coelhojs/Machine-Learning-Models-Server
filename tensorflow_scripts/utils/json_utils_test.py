@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Tests for google3.image.understanding.object_detection.utils.json_utils."""
+"""Tests for google3.image.understanding.tensorflow_scripts.utils.json_utils."""
 import os
 
 import tensorflow as tf
 
-from object_detection.utils import json_utils
+from tensorflow_scripts.utils import json_utils
 
 
 class JsonUtilsTest(tf.test.TestCase):

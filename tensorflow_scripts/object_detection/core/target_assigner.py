@@ -49,7 +49,7 @@ from object_detection.core import region_similarity_calculator as sim_calc
 from object_detection.core import standard_fields as fields
 from object_detection.matchers import argmax_matcher
 from object_detection.matchers import bipartite_matcher
-from object_detection.utils import shape_utils
+from tensorflow_scripts.utils import shape_utils
 
 
 class TargetAssigner(object):

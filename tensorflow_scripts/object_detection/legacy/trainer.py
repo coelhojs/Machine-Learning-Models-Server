@@ -29,8 +29,8 @@ from object_detection.builders import preprocessor_builder
 from object_detection.core import batcher
 from object_detection.core import preprocessor
 from object_detection.core import standard_fields as fields
-from object_detection.utils import ops as util_ops
-from object_detection.utils import variables_helper
+from tensorflow_scripts.utils import ops as util_ops
+from tensorflow_scripts.utils import variables_helper
 from slim.deployment import model_deploy
 
 slim = contrib_slim

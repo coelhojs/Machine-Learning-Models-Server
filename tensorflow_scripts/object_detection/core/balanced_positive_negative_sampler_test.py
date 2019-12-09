@@ -19,7 +19,7 @@ import numpy as np
 import tensorflow as tf
 
 from object_detection.core import balanced_positive_negative_sampler
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 
 class BalancedPositiveNegativeSamplerTest(test_case.TestCase):

@@ -28,8 +28,8 @@ from object_detection.builders import model_builder
 from object_detection.core import model
 from object_detection.protos import graph_rewriter_pb2
 from object_detection.protos import pipeline_pb2
-from object_detection.utils import ops
-from object_detection.utils import variables_helper
+from tensorflow_scripts.utils import ops
+from tensorflow_scripts.utils import variables_helper
 
 if six.PY2:
   import mock  # pylint: disable=g-import-not-at-top

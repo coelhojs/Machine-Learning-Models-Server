@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Tests for object_detection.utils.config_util."""
+"""Tests for tensorflow_scripts.utils.config_util."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -31,7 +31,7 @@ from object_detection.protos import input_reader_pb2
 from object_detection.protos import model_pb2
 from object_detection.protos import pipeline_pb2
 from object_detection.protos import train_pb2
-from object_detection.utils import config_util
+from tensorflow_scripts.utils import config_util
 
 
 def _write_config(config, config_path):

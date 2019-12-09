@@ -34,9 +34,9 @@ from object_detection.meta_architectures import faster_rcnn_meta_arch
 from object_detection.protos import box_predictor_pb2
 from object_detection.protos import hyperparams_pb2
 from object_detection.protos import post_processing_pb2
-from object_detection.utils import ops
-from object_detection.utils import test_case
-from object_detection.utils import test_utils
+from tensorflow_scripts.utils import ops
+from tensorflow_scripts.utils import test_case
+from tensorflow_scripts.utils import test_utils
 
 slim = contrib_slim
 BOX_CODE_SIZE = 4

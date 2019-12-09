@@ -27,7 +27,7 @@ from object_detection.predictors.heads import box_head
 from object_detection.predictors.heads import class_head
 from object_detection.predictors.heads import mask_head
 from object_detection.protos import hyperparams_pb2
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 
 class ConvolutionalBoxPredictorTest(test_case.TestCase):

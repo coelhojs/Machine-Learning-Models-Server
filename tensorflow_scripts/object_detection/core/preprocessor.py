@@ -82,9 +82,9 @@ from object_detection.core import box_list_ops
 from object_detection.core import keypoint_ops
 from object_detection.core import preprocessor_cache
 from object_detection.core import standard_fields as fields
-from object_detection.utils import autoaugment_utils
-from object_detection.utils import patch_ops
-from object_detection.utils import shape_utils
+from tensorflow_scripts.utils import autoaugment_utils
+from tensorflow_scripts.utils import patch_ops
+from tensorflow_scripts.utils import shape_utils
 
 
 def _apply_with_random_selector(x,

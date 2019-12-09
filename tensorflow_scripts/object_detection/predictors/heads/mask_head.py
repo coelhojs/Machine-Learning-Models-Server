@@ -24,7 +24,7 @@ import tensorflow as tf
 from tensorflow.contrib import slim as contrib_slim
 
 from object_detection.predictors.heads import head
-from object_detection.utils import ops
+from tensorflow_scripts.utils import ops
 
 slim = contrib_slim
 

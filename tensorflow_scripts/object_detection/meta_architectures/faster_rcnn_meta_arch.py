@@ -108,9 +108,9 @@ from object_detection.core import losses
 from object_detection.core import model
 from object_detection.core import standard_fields as fields
 from object_detection.core import target_assigner
-from object_detection.utils import ops
-from object_detection.utils import shape_utils
-from object_detection.utils import variables_helper
+from tensorflow_scripts.utils import ops
+from tensorflow_scripts.utils import shape_utils
+from tensorflow_scripts.utils import variables_helper
 
 slim = contrib_slim
 

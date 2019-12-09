@@ -22,7 +22,7 @@ from object_detection.builders import box_predictor_builder
 from object_detection.builders import hyperparams_builder
 from object_detection.predictors import mask_rcnn_box_predictor as box_predictor
 from object_detection.protos import hyperparams_pb2
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 
 class MaskRCNNBoxPredictorTest(test_case.TestCase):

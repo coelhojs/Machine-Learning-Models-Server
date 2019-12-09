@@ -18,7 +18,7 @@ import pandas as pd
 import tensorflow as tf
 
 from PIL import Image
-from object_detection.utils import dataset_util
+from tensorflow_scripts.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
 # patch tf1 into `utils.ops`

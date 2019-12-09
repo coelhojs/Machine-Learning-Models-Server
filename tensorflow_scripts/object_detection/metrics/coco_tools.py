@@ -56,7 +56,7 @@ from six.moves import range
 from six.moves import zip
 import tensorflow as tf
 
-from object_detection.utils import json_utils
+from tensorflow_scripts.utils import json_utils
 
 
 class COCOWrapper(coco.COCO):

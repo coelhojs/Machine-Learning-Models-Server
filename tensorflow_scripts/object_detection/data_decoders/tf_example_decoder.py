@@ -27,7 +27,7 @@ import tensorflow as tf
 from object_detection.core import data_decoder
 from object_detection.core import standard_fields as fields
 from object_detection.protos import input_reader_pb2
-from object_detection.utils import label_map_util
+from tensorflow_scripts.utils import label_map_util
 
 slim_example_decoder = tf.contrib.slim.tfexample_decoder
 

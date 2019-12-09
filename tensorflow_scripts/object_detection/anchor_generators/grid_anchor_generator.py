@@ -24,7 +24,7 @@ import tensorflow as tf
 
 from object_detection.core import anchor_generator
 from object_detection.core import box_list
-from object_detection.utils import ops
+from tensorflow_scripts.utils import ops
 
 
 class GridAnchorGenerator(anchor_generator.AnchorGenerator):

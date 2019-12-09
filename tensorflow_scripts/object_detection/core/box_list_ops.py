@@ -31,8 +31,8 @@ from six.moves import range
 import tensorflow as tf
 
 from object_detection.core import box_list
-from object_detection.utils import ops
-from object_detection.utils import shape_utils
+from tensorflow_scripts.utils import ops
+from tensorflow_scripts.utils import shape_utils
 
 
 class SortOrder(object):

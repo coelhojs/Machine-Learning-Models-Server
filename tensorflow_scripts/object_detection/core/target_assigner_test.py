@@ -25,7 +25,7 @@ from object_detection.core import standard_fields as fields
 from object_detection.core import target_assigner as targetassigner
 from object_detection.matchers import argmax_matcher
 from object_detection.matchers import bipartite_matcher
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 
 class TargetAssignerTest(test_case.TestCase):

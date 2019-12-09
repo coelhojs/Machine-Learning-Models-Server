@@ -23,7 +23,7 @@ from tensorflow.contrib import framework as contrib_framework
 from tensorflow.contrib import slim as contrib_slim
 
 from object_detection.meta_architectures import faster_rcnn_meta_arch
-from object_detection.utils import variables_helper
+from tensorflow_scripts.utils import variables_helper
 from slim.nets.nasnet import nasnet_utils
 from slim.nets.nasnet import pnasnet
 

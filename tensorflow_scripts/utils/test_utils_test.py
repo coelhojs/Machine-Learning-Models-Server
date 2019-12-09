@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 
-"""Tests for object_detection.utils.test_utils."""
+"""Tests for tensorflow_scripts.utils.test_utils."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -22,7 +22,7 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 
-from object_detection.utils import test_utils
+from tensorflow_scripts.utils import test_utils
 
 
 class TestUtilsTest(tf.test.TestCase):

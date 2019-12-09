@@ -39,9 +39,9 @@ import six
 from six.moves import range
 
 from object_detection.core import standard_fields
-from object_detection.utils import metrics
-from object_detection.utils import object_detection_evaluation
-from object_detection.utils import per_image_vrd_evaluation
+from tensorflow_scripts.utils import metrics
+from tensorflow_scripts.utils import object_detection_evaluation
+from tensorflow_scripts.utils import per_image_vrd_evaluation
 
 # Below standard input numpy datatypes are defined:
 # box_data_type - datatype of the groundtruth visual relations box annotations;

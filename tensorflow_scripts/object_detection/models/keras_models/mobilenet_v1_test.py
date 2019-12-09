@@ -36,7 +36,7 @@ from object_detection.models.keras_models import mobilenet_v1
 from object_detection.models.keras_models import model_utils
 from object_detection.models.keras_models import test_utils
 from object_detection.protos import hyperparams_pb2
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 _KERAS_LAYERS_TO_CHECK = [
     'conv1_relu',

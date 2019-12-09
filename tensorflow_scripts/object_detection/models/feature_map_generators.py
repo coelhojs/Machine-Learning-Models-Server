@@ -27,8 +27,8 @@ import collections
 import functools
 import tensorflow as tf
 from tensorflow.contrib import slim as contrib_slim
-from object_detection.utils import ops
-from object_detection.utils import shape_utils
+from tensorflow_scripts.utils import ops
+from tensorflow_scripts.utils import shape_utils
 slim = contrib_slim
 
 # Activation bound used for TPU v1. Activations will be clipped to

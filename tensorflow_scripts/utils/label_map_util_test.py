@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Tests for object_detection.utils.label_map_util."""
+"""Tests for tensorflow_scripts.utils.label_map_util."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -24,7 +24,7 @@ import tensorflow as tf
 
 from google.protobuf import text_format
 from object_detection.protos import string_int_label_map_pb2
-from object_detection.utils import label_map_util
+from tensorflow_scripts.utils import label_map_util
 
 
 class LabelMapUtilTest(tf.test.TestCase):

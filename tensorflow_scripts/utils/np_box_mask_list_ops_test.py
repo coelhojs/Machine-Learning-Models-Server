@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 
-"""Tests for object_detection.utils.np_box_mask_list_ops."""
+"""Tests for tensorflow_scripts.utils.np_box_mask_list_ops."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -22,8 +22,8 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 
-from object_detection.utils import np_box_mask_list
-from object_detection.utils import np_box_mask_list_ops
+from tensorflow_scripts.utils import np_box_mask_list
+from tensorflow_scripts.utils import np_box_mask_list_ops
 
 
 class AreaRelatedTest(tf.test.TestCase):

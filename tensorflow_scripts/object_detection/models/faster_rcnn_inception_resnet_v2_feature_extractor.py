@@ -26,7 +26,7 @@ import tensorflow as tf
 from tensorflow.contrib import slim as contrib_slim
 
 from object_detection.meta_architectures import faster_rcnn_meta_arch
-from object_detection.utils import variables_helper
+from tensorflow_scripts.utils import variables_helper
 from slim.nets import inception_resnet_v2
 
 slim = contrib_slim

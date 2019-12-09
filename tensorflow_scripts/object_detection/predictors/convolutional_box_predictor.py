@@ -17,8 +17,8 @@
 import functools
 import tensorflow as tf
 from object_detection.core import box_predictor
-from object_detection.utils import shape_utils
-from object_detection.utils import static_shape
+from tensorflow_scripts.utils import shape_utils
+from tensorflow_scripts.utils import static_shape
 
 slim = tf.contrib.slim
 

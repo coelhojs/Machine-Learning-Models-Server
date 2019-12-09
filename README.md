@@ -21,3 +21,6 @@
 ### Para testar, com o servidor e o TF-Serving ativo:
 
 	curl --request POST --url http:/localhost:5000/vera_species/classify --header 'content-type: application/json' --data '{"data": "c:\\development\\tensorflow-serving\\mangueira.jpg"}'
+
+
+	curl --request POST --url http://localhost:5000/vera_poles_trees/detect --header 'content-type: application/json' --data '{"data": "c:\\development\\tensorflow-serving\\mangueira.jpg"}'

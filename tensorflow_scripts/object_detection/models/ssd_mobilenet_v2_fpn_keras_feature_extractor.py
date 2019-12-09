@@ -21,8 +21,8 @@ from object_detection.meta_architectures import ssd_meta_arch
 from object_detection.models import feature_map_generators
 from object_detection.models.keras_models import mobilenet_v2
 from object_detection.models.keras_models import model_utils
-from object_detection.utils import ops
-from object_detection.utils import shape_utils
+from tensorflow_scripts.utils import ops
+from tensorflow_scripts.utils import shape_utils
 
 # Total number of blocks in Mobilenet_V2 base network.
 NUM_LAYERS = 19

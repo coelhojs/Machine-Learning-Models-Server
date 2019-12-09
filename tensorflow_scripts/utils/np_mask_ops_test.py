@@ -22,7 +22,7 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 
-from object_detection.utils import np_mask_ops
+from tensorflow_scripts.utils import np_mask_ops
 
 
 class MaskOpsTests(tf.test.TestCase):

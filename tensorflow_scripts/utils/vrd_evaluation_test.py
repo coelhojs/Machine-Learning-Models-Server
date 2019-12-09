@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Tests for tensorflow_models.object_detection.utils.vrd_evaluation."""
+"""Tests for tensorflow_models.tensorflow_scripts.utils.vrd_evaluation."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -22,7 +22,7 @@ import numpy as np
 import tensorflow as tf
 
 from object_detection.core import standard_fields
-from object_detection.utils import vrd_evaluation
+from tensorflow_scripts.utils import vrd_evaluation
 
 
 class VRDRelationDetectionEvaluatorTest(tf.test.TestCase):

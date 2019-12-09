@@ -27,7 +27,7 @@ from object_detection.core import standard_fields
 from object_detection.core import target_assigner
 from object_detection.matchers import argmax_matcher
 from object_detection.metrics import calibration_metrics
-from object_detection.utils import object_detection_evaluation
+from tensorflow_scripts.utils import object_detection_evaluation
 
 
 # TODO(zbeaver): Implement metrics per category.

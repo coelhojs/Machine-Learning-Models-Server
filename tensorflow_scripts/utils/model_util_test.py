@@ -21,7 +21,7 @@ from __future__ import print_function
 
 import tensorflow as tf
 
-from object_detection.utils import model_util
+from tensorflow_scripts.utils import model_util
 
 
 class ExtractSubmodelUtilTest(tf.test.TestCase):

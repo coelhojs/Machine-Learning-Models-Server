@@ -1,8 +1,0 @@
-item {
-    id: 1
-    name: 'arvore'
-}
-item {
-    id: 2
-    name: 'poste'
-}

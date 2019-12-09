@@ -23,8 +23,8 @@ import math
 import tensorflow as tf
 
 from object_detection.predictors.heads import head
-from object_detection.utils import ops
-from object_detection.utils import shape_utils
+from tensorflow_scripts.utils import ops
+from tensorflow_scripts.utils import shape_utils
 
 
 class ConvolutionalMaskHead(head.KerasHead):

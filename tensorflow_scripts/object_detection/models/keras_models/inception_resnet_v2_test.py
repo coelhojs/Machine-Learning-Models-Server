@@ -31,7 +31,7 @@ import numpy as np
 import tensorflow as tf
 
 from object_detection.models.keras_models import inception_resnet_v2
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 _KERAS_TO_SLIM_ENDPOINT_NAMES = {
     'activation': 'Conv2d_1a_3x3',

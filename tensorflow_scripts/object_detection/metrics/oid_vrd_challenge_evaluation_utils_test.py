@@ -23,7 +23,7 @@ import pandas as pd
 import tensorflow as tf
 from object_detection.core import standard_fields
 from object_detection.metrics import oid_vrd_challenge_evaluation_utils as utils
-from object_detection.utils import vrd_evaluation
+from tensorflow_scripts.utils import vrd_evaluation
 
 
 class OidVrdChallengeEvaluationUtilsTest(tf.test.TestCase):

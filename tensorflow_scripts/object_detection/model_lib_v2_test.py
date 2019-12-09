@@ -24,7 +24,7 @@ import tensorflow as tf
 
 from object_detection import model_hparams
 from object_detection import model_lib_v2
-from object_detection.utils import config_util
+from tensorflow_scripts.utils import config_util
 
 
 # Model for test. Current options are:

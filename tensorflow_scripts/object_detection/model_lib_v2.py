@@ -29,10 +29,10 @@ from object_detection import model_lib
 from object_detection.builders import model_builder
 from object_detection.builders import optimizer_builder
 from object_detection.core import standard_fields as fields
-from object_detection.utils import config_util
-from object_detection.utils import label_map_util
-from object_detection.utils import ops
-from object_detection.utils import variables_helper
+from tensorflow_scripts.utils import config_util
+from tensorflow_scripts.utils import label_map_util
+from tensorflow_scripts.utils import ops
+from tensorflow_scripts.utils import variables_helper
 
 MODEL_BUILD_UTIL_MAP = model_lib.MODEL_BUILD_UTIL_MAP
 

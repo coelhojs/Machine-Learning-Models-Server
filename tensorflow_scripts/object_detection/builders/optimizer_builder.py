@@ -18,7 +18,7 @@
 import tensorflow as tf
 
 
-from object_detection.utils import learning_schedules
+from tensorflow_scripts.utils import learning_schedules
 
 
 def build_optimizers_tf_v1(optimizer_config, global_step=None):

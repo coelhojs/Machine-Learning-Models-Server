@@ -36,7 +36,7 @@ import tensorflow as tf
 
 from object_detection.core import box_list
 from object_detection.core import box_list_ops
-from object_detection.utils import ops
+from tensorflow_scripts.utils import ops
 
 slim = tf.contrib.slim
 

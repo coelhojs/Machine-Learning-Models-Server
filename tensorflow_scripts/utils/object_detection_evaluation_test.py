@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 
-"""Tests for object_detection.utils.object_detection_evaluation."""
+"""Tests for tensorflow_scripts.utils.object_detection_evaluation."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -25,7 +25,7 @@ from six.moves import range
 import tensorflow as tf
 from object_detection import eval_util
 from object_detection.core import standard_fields
-from object_detection.utils import object_detection_evaluation
+from tensorflow_scripts.utils import object_detection_evaluation
 
 
 class OpenImagesV2EvaluationTest(tf.test.TestCase):

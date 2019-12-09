@@ -17,7 +17,7 @@ from absl.testing import parameterized
 import tensorflow as tf
 from object_detection.core import post_processing
 from object_detection.core import standard_fields as fields
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 
 class ClassAgnosticNonMaxSuppressionTest(test_case.TestCase,

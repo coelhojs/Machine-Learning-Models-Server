@@ -25,7 +25,7 @@ from google.protobuf import text_format
 from tensorflow.contrib import slim as contrib_slim
 from object_detection.builders import hyperparams_builder
 from object_detection.protos import hyperparams_pb2
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 
 class SsdFeatureExtractorTestBase(test_case.TestCase):

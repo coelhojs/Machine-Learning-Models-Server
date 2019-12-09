@@ -36,9 +36,9 @@ from object_detection.protos import image_resizer_pb2
 from object_detection.protos import input_reader_pb2
 from object_detection.protos import model_pb2
 from object_detection.protos import train_pb2
-from object_detection.utils import config_util
-from object_detection.utils import ops as util_ops
-from object_detection.utils import shape_utils
+from tensorflow_scripts.utils import config_util
+from tensorflow_scripts.utils import ops as util_ops
+from tensorflow_scripts.utils import shape_utils
 
 HASH_KEY = 'hash'
 HASH_BINS = 1 << 31

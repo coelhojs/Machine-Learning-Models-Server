@@ -28,7 +28,7 @@ from object_detection.core import box_coder
 from object_detection.core import box_list
 from object_detection.core import box_predictor
 from object_detection.core import matcher
-from object_detection.utils import shape_utils
+from tensorflow_scripts.utils import shape_utils
 
 # Default size (both width and height) used for testing mask predictions.
 DEFAULT_MASK_SIZE = 5

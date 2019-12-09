@@ -19,7 +19,7 @@ import tensorflow as tf
 
 from object_detection.core import box_list
 from object_detection.core import box_list_ops
-from object_detection.utils import test_case
+from tensorflow_scripts.utils import test_case
 
 
 class BoxListOpsTest(test_case.TestCase):
