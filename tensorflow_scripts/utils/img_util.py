@@ -57,12 +57,12 @@ def post_process(server_response, image_size):
 
     # all outputs are float32 numpy arrays, so convert types as appropriate
     filtered_scores = list(filter(lambda x: (x > 0.5), output_dict['detection_scores']))
-    output_dict['detection_scores'] = np.array(filtered_scores)
+    output_dict['detection_scores'] = filtered_scores
     output_dict['num_detections'] = int(len(output_dict['detection_scores']))
     filtered_classes = output_dict['detection_classes'][0:output_dict['num_detections']]
-    output_dict['detection_classes'] = np.array(int(class_id) for class_id in filtered_classes)
+    output_dict['detection_classes'] = filtered_classes
     filtered_boxes = output_dict['detection_boxes'][0:output_dict['num_detections']]
-    output_dict['detection_boxes'] = np.array(filtered_boxes)
+    output_dict['detection_boxes'] = filtered_boxes
     
     
     return output_dict

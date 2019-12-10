@@ -1,3 +1,4 @@
+import os
 import base64
 import json
 import time
@@ -15,10 +16,10 @@ from PIL import Image
 from tensorflow.contrib import util as contrib_util
 from tensorflow.keras.applications import inception_v3
 from tensorflow.keras.preprocessing import image
-from tensorflow_serving.apis import predict_pb2, prediction_service_pb2_grpc
 
 from tensorflow_scripts.utils import img_util, label_map_util
 from tensorflow_scripts.utils.label_util import load_labels
+from tensorflow_serving.apis import predict_pb2, prediction_service_pb2_grpc
 
 # from flask_cors import CORS
 
@@ -28,46 +29,54 @@ app = Flask(__name__)
 
 @app.route('/vera_species/classify/', methods=['POST'])
 def image_classifier():
-    label_file = 'tensorflow_serving/vera_species/1/labels.txt'
+    server_url = "http://localhost:8501/v1/models/vera_species:predict"
+    label_file = 'models/vera_species/vera_species_labels.txt'
+    # TODO: Utilizar try/catch para registro de logs e garantir que as requisições vieram parametrizadas corretamente
+    prediction = {}
+    prediction['id'] = request.json['id']
+    prediction['type'] = "species_classification"
+    prediction['images'] = []
+
     # Obtém a imagem a partir do url path informado pelo cliente:
-    # Converte o arquivo num float array
-    response = request.json['data']
-    formatted_json_input = img_util.classification_pre_process(response)
+    for image_path in request.json['images']:
+        # Converte o arquivo num float array
+        formatted_json_input = img_util.classification_pre_process(image_path)
 
-    # TODO: Verificar se essa linha é necessária
-    # this line is added because of a bug in tf_serving(1.10.0-dev)
+        # Call tensorflow server
+        headers = {"content-type": "application/json"}
+        print(f'\n\nMaking request to {server_url}...\n')
+        server_response = requests.post(server_url, data=formatted_json_input, headers=headers)
+        print(f'Request returned\n')
+        print(server_response)
 
-    # Making POST request
-    headers = {"content-type": "application/json"}
-    response = requests.post(
-        'http:/localhost:8501/v1/models/vera_species:predict', headers=headers, data=formatted_json_input)
+        # Decoding results from TensorFlow Serving server
+        pred = json.loads(server_response.content.decode('utf-8'))
 
-    # Decoding results from TensorFlow Serving server
-    pred = json.loads(response.content.decode('utf-8'))
+        predictions = np.squeeze(pred['predictions'][0])
+        
+        results = []
+        top_k = predictions.argsort()[-5:][::-1]
+        labels = load_labels(label_file)
+        for i in top_k:
+            label = labels[i]
+            score = float(predictions[i])
+            results.append('{label},{score}'.format(label=label,score=score))
 
-    predictions = np.squeeze(pred['predictions'][0])
-
-    results = []
-    top_k = predictions.argsort()[-5:][::-1]
-    labels = load_labels(label_file)
-    for i in top_k:
-        label = labels[i]
-        score = float(predictions[i])
-        results.append('{label},{score}'.format(label=label,score=score))
+        #Se a classificação ocorreu sem erros, inclui-la no objeto de retorno
+        # image_name = os.path.basename(image_path)
+        prediction['images'].append('{image_path}:{results}'.format(image_path=image_path,results=results))
 
     # Returning JSON response to the frontend
-    return jsonify(results)
+    return jsonify(prediction)
 
 
 @app.route('/vera_poles_trees/detect/', methods=['POST'])
 def object_detection():
 
-    # Map args to var
     image_path = request.json['data']
     server_url = "http://localhost:8501/v1/models/vera_poles_trees:predict"
     output_image = 'tf_output.json'
-    path_to_labels = 'tensorflow_serving/vera_poles_trees/1/label_map.pbtxt'
-
+    
     # Build input data
     print(f'\n\nPre-processing input file {image_path}...\n')
     formatted_json_input = img_util.object_detection_pre_process(image_path)
@@ -90,9 +99,7 @@ def object_detection():
     # Save output on disk
     print(f'\n\nSaving output to {output_image}\n\n')
     with open(output_image, 'w+') as outfile:
-        json.dump(json.loads(output_dict), outfile)
+        json.dump(output_dict, outfile)
     print(f'Output saved!\n')
 
     return output_dict
-
-# @app.route('/vera_species/retrain/', methods=['POST'])

@@ -23,4 +23,4 @@
 	curl --request POST --url http:/localhost:5000/vera_species/classify --header 'content-type: application/json' --data '{"data": "c:\\development\\tensorflow-serving\\mangueira.jpg"}'
 
 
-	curl --request POST --url http://localhost:5000/vera_poles_trees/detect --header 'content-type: application/json' --data '{"data": "c:\\development\\tensorflow-serving\\mangueira.jpg"}'
+	curl --request POST --url http://localhost:5000/vera_poles_trees/detect --header 'content-type: application/json' --data '{"data": "/home/cristiano/development/Machine-Learning-Models-Server/test_images/1.png"}'
