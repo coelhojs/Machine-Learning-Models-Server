@@ -6,8 +6,6 @@ from io import BytesIO
 from os import listdir
 from os.path import isfile, join
 
-# from grpc.beta import implementations
-import grpc
 import numpy as np
 import requests
 import tensorflow as tf
@@ -16,16 +14,11 @@ from PIL import Image
 from tensorflow.contrib import util as contrib_util
 from tensorflow.keras.applications import inception_v3
 from tensorflow.keras.preprocessing import image
-from tensorflow_serving.apis import predict_pb2, prediction_service_pb2_grpc
 
 from tensorflow_scripts.utils import img_util, label_map_util
 from tensorflow_scripts.utils.label_util import load_labels
 
-# from flask_cors import CORS
-
 app = Flask(__name__)
-# Uncomment this line if you are making a Cross domain request
-# CORS(app)
 
 @app.route('/vera_species/classify/', methods=['POST'])
 def image_classifier():

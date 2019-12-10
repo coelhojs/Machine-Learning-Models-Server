@@ -1,15 +1,15 @@
 Flask
-Cython
-grpcio
+# Cython
+#grpcio
 matplotlib
 numpy
-opencv-python
+#opencv-python
 pandas
 pillow
 pylint
 #pycocotools
 requests
-scikit-image
+# scikit-image
 #shutil
 tensorflow==1.15
 tensorflow-serving-api==1.15
