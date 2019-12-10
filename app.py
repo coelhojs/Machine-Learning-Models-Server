@@ -1,6 +1,6 @@
-import os
 import base64
 import json
+import os
 import time
 from io import BytesIO
 from os import listdir
@@ -16,10 +16,10 @@ from PIL import Image
 from tensorflow.contrib import util as contrib_util
 from tensorflow.keras.applications import inception_v3
 from tensorflow.keras.preprocessing import image
+from tensorflow_serving.apis import predict_pb2, prediction_service_pb2_grpc
 
 from tensorflow_scripts.utils import img_util, label_map_util
 from tensorflow_scripts.utils.label_util import load_labels
-from tensorflow_serving.apis import predict_pb2, prediction_service_pb2_grpc
 
 # from flask_cors import CORS
 
@@ -73,9 +73,7 @@ def image_classifier():
 @app.route('/vera_poles_trees/detect/', methods=['POST'])
 def object_detection():
     label_file = 'models/vera_poles_trees/vera_poles_trees_labels.pbtxt'
-    num_classes = 2
     server_url = "http://localhost:8501/v1/models/vera_poles_trees:predict"
-    output_image = 'tf_output.json'
 
     #Objeto de resposta:
     prediction = {}
@@ -102,12 +100,6 @@ def object_detection():
         image_np = img_util.load_image_into_numpy_array(image)
         output_dict = img_util.post_process(server_response, image_np.shape, label_file)
         print(f'Post-processing done!\n')
-
-        # Save output on disk
-        # print(f'\n\nSaving output to {output_image}\n\n')
-        # with open(output_image, 'w+') as outfile:
-        #     json.dump(output_dict, outfile)
-        # print(f'Output saved!\n')
 
         prediction['images'].append('{image_path}:{results}'.format(image_path=image_path,results=output_dict))
 

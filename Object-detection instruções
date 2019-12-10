@@ -27,8 +27,8 @@ Geração dos TFRecords:
 		python generate_tfrecord_base_itens.py --label=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/label_map.pbtxt --csv_input=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/test_labels.csv --output_path=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/images/test.record --img_path=/mnt/c/development/Machine-Learning-Models-Vera/vera_base_itens/images/test
 
 	CMD:
-		python object_detection/preprocessing/generate_tfrecord_base_itens.py --label=C:/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/label_map.pbtxt --csv_input=C:/development/Machine-Learning-Models-Vera/vera_base_itens/annotations/train_labels.csv --output_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/images/train.record --img_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/images/train
+		python object_detection/preprocessing/generate_tfrecord_base_itens.py --label=C:/Machine-Learning-Models-Vera/vera_base_itens/annotations/label_map.pbtxt --csv_input=C:/Machine-Learning-Models-Vera/vera_base_itens/annotations/train_labels.csv --output_path=C:/Machine-Learning-Models-Vera/vera_base_itens/images/train.record --img_path=C:/Machine-Learning-Models-Vera/vera_base_itens/images/train
 
 Treinamento:
-	python object_detection/train.py --logtostderr --train_dir=C:/development/Machine-Learning-Models-Vera/vera_base_itens/training/ --pipeline_config_path=C:/development/Machine-Learning-Models-Vera/vera_base_itens/training/ssd_inception_v2_coco.config
+	python object_detection/train.py --logtostderr --train_dir=C:/Machine-Learning-Models-Vera/vera_base_itens/training/ --pipeline_config_path=C:/Machine-Learning-Models-Vera/vera_base_itens/training/ssd_inception_v2_coco.config
 		
