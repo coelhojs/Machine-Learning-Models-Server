@@ -72,7 +72,8 @@ def image_classifier():
 
 @app.route('/vera_poles_trees/detect/', methods=['POST'])
 def object_detection():
-
+    label_file = 'models/vera_poles_trees/vera_poles_trees_labels.pbtxt'
+    num_classes = 2
     server_url = "http://localhost:8501/v1/models/vera_poles_trees:predict"
     output_image = 'tf_output.json'
 
@@ -99,7 +100,7 @@ def object_detection():
         print(f'\n\nPost-processing server response...\n')
         image = Image.open(image_path).convert("RGB")
         image_np = img_util.load_image_into_numpy_array(image)
-        output_dict = img_util.post_process(server_response, image_np.shape)
+        output_dict = img_util.post_process(server_response, image_np.shape, label_file)
         print(f'Post-processing done!\n')
 
         # Save output on disk
