@@ -73,33 +73,41 @@ def image_classifier():
 @app.route('/vera_poles_trees/detect/', methods=['POST'])
 def object_detection():
 
-    image_path = request.json['data']
     server_url = "http://localhost:8501/v1/models/vera_poles_trees:predict"
     output_image = 'tf_output.json'
-    
-    # Build input data
-    print(f'\n\nPre-processing input file {image_path}...\n')
-    formatted_json_input = img_util.object_detection_pre_process(image_path)
-    print('Pre-processing done! \n')
 
-    # Call tensorflow server
-    headers = {"content-type": "application/json"}
-    print(f'\n\nMaking request to {server_url}...\n')
-    server_response = requests.post(server_url, data=formatted_json_input, headers=headers)
-    print(f'Request returned\n')
-    print(server_response)
+    #Objeto de resposta:
+    prediction = {}
+    prediction['id'] = request.json['id']
+    prediction['type'] = "poles_trees_detection"
+    prediction['images'] = []
 
-    # Post process output
-    print(f'\n\nPost-processing server response...\n')
-    image = Image.open(image_path).convert("RGB")
-    image_np = img_util.load_image_into_numpy_array(image)
-    output_dict = img_util.post_process(server_response, image_np.shape)
-    print(f'Post-processing done!\n')
+    for image_path in request.json['images']:
+        # Build input data
+        print(f'\n\nPre-processing input file {image_path}...\n')
+        formatted_json_input = img_util.object_detection_pre_process(image_path)
+        print('Pre-processing done! \n')
 
-    # Save output on disk
-    print(f'\n\nSaving output to {output_image}\n\n')
-    with open(output_image, 'w+') as outfile:
-        json.dump(output_dict, outfile)
-    print(f'Output saved!\n')
+        # Call tensorflow server
+        headers = {"content-type": "application/json"}
+        print(f'\n\nMaking request to {server_url}...\n')
+        server_response = requests.post(server_url, data=formatted_json_input, headers=headers)
+        print(f'Request returned\n')
+        print(server_response)
 
-    return output_dict
+        # Post process output
+        print(f'\n\nPost-processing server response...\n')
+        image = Image.open(image_path).convert("RGB")
+        image_np = img_util.load_image_into_numpy_array(image)
+        output_dict = img_util.post_process(server_response, image_np.shape)
+        print(f'Post-processing done!\n')
+
+        # Save output on disk
+        # print(f'\n\nSaving output to {output_image}\n\n')
+        # with open(output_image, 'w+') as outfile:
+        #     json.dump(output_dict, outfile)
+        # print(f'Output saved!\n')
+
+        prediction['images'].append('{image_path}:{results}'.format(image_path=image_path,results=output_dict))
+
+    return prediction
