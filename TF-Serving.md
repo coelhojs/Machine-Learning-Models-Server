@@ -2,6 +2,14 @@
 
 ## vera_species
 
+### Atualizar certificados do Docker Toolbox
+
+    docker-machine regenerate-certs default
+
+### Adicionar o disco local à maquina virtual do Oracle VirtualBox
+
+    Abra o VirtualBox e acesse as configurações da VM default. Adicione o disco local C: a lista de diretórios reconhecidos e selecione a opção permanente
+
 ### Download da Imagem Docker do TF-Serving:
 
     `docker pull tensorflow/serving`
