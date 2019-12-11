@@ -1,0 +1,12 @@
+Docker Toolbox:
+	Para rodar é necessário regerar os certificados a cada inicialização
+	Consegui instalar a imagem tensorflow/serving mas não consegui subir o container apontando as pastas de modelos
+
+Docker for Windows:
+	Incompatível com Windows Server
+
+Docker Engine - Enterprise:
+	Versão estável atual não suporta containeres Windows
+
+Docker Engine - Enterprise Preview:
+	Preciso testar 

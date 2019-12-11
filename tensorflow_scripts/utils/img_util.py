@@ -43,19 +43,14 @@ def object_detection_pre_process(image_path):
 
     return formatted_json_input
 
-def post_process(server_response, image_size, labels_path):
-    """
-    Post-process the server response
-
-    Args:
-        server_response (requests.Response)
-        image_size (tuple(int))
-
-    Returns:
-        post_processed_data (dict)
-    """
-    response = json.loads(server_response.text)
-    output_dict = response['predictions'][0]
+def post_process(server_response, image_size, labels):
+    # strategy of "easier to ask for forgiveness than permission":
+    # https://stackoverflow.com/questions/16778435/python-check-if-website-exists
+    try:
+        response = json.loads(server_response.text)
+        output_dict = response['predictions'][0]
+    except:
+        output_dict = server_response
 
 
     # all outputs are float32 numpy arrays, so convert types as appropriate
@@ -63,9 +58,7 @@ def post_process(server_response, image_size, labels_path):
     output_dict['detection_scores'] = filtered_scores
     output_dict['num_detections'] = int(len(output_dict['detection_scores']))
     filtered_classes = output_dict['detection_classes'][0:output_dict['num_detections']]
-
-    labels = load_labels(labels_path)
-
+ 
     named_classes = list(map(lambda x: labels[int(x)-1], filtered_classes))
     output_dict['detection_classes'] = named_classes
     filtered_boxes = output_dict['detection_boxes'][0:output_dict['num_detections']]
