@@ -11,5 +11,5 @@ pylint
 requests
 # scikit-image
 #shutil
-tensorflow==1.15
-tensorflow-serving-api==1.15
+tensorflow=1.15
+#tensorflow-serving-api==1.15
