@@ -19,7 +19,7 @@ from tensorflow_scripts.utils import ops as utils_ops
 def load_model(model_path):
   graph = tf.Graph()
   with graph.as_default():
-    od_graph_def = tf.GraphDef()
+    od_graph_def = tf.compat.v1.GraphDef()
     with tf.io.gfile.GFile(model_path, 'rb') as fid:
         serialized_graph = fid.read()
         od_graph_def.ParseFromString(serialized_graph)
@@ -51,7 +51,8 @@ def objects_detector(images_list, model_path, labels):
 
 def run_inference_for_single_image(graph, image_path, labels):
     with graph.as_default():
-        with tf.Session() as sess:
+        with tf.compat.v1.Session() as sess:
+            image = Image.open(image_path).convert("RGB")
             # Get handles to input and output tensors
             ops = tf.compat.v1.get_default_graph().get_operations()
             all_tensor_names = {
@@ -63,7 +64,7 @@ def run_inference_for_single_image(graph, image_path, labels):
             ]:
                 tensor_name = key + ':0'
                 if tensor_name in all_tensor_names:
-                    tensor_dict[key] = tf.get_default_graph().get_tensor_by_name(
+                    tensor_dict[key] = tf.compat.v1.get_default_graph().get_tensor_by_name(
                         tensor_name)
             if 'detection_masks' in tensor_dict:
                 # The following processing is only for single image
@@ -85,9 +86,7 @@ def run_inference_for_single_image(graph, image_path, labels):
                 # Follow the convention by adding back the batch dimension
                 tensor_dict['detection_masks'] = tf.expand_dims(
                     detection_masks_reframed, 0)
-            image_tensor = tf.get_default_graph().get_tensor_by_name('image_tensor:0')
-            
-            image = Image.open(image_path).convert("RGB")
+            image_tensor = tf.compat.v1.get_default_graph().get_tensor_by_name('image_tensor:0')
             image_np = img_util.load_image_into_numpy_array(image)
 
             # Run inference

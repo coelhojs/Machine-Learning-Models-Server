@@ -68,7 +68,7 @@ def species_classifier():
         prediction['images'].append('{image_path}:{results}'.format(image_path=image_path,results=results))
 
     except:
-        print("Tensorflow Serving não detectado. Utilizando scripts locais para classificação")
+        print("Tensorflow Serving não detectado. Utilizando scripts locais")
 
         label_file = 'C:/Machine-Learning-Models-Server/models_inference/vera_species/vera_species_labels.txt'
         model_path = 'C:/Machine-Learning-Models-Server/models_inference/vera_species/1/retrained_graph.pb'
@@ -119,7 +119,7 @@ def object_detection():
         return jsonify(prediction)
 
     except:
-        print("Tensorflow Serving não detectado. Utilizando scripts locais para classificação")
+        print("Tensorflow Serving não detectado. Utilizando scripts locais")
 
         label_file = 'C:/Machine-Learning-Models-Server/models_inference/vera_poles_trees/vera_poles_trees_labels.pbtxt'
         model_path = 'C:/Machine-Learning-Models-Server/models_inference/vera_poles_trees/1/frozen_inference_graph.pb'
