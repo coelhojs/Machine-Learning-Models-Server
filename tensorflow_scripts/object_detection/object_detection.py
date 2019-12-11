@@ -52,7 +52,11 @@ def objects_detector(images_list, model_path, labels):
 def run_inference_for_single_image(graph, image_path, labels):
     with graph.as_default():
         with tf.compat.v1.Session() as sess:
-            image = Image.open(image_path).convert("RGB")
+                try:
+                    image = Image.open(image_path).convert("RGB")
+                except:
+                    raise Exception("Imagem {image_path} nao localizada.".format(image_path=image_path))
+
             # Get handles to input and output tensors
             ops = tf.compat.v1.get_default_graph().get_operations()
             all_tensor_names = {

@@ -34,7 +34,11 @@ def classification_pre_process(image_path):
     return formatted_json_input
 
 def object_detection_pre_process(image_path):
-    image = Image.open(image_path).convert("RGB")
+    try:
+        image = Image.open(image_path).convert("RGB")
+    except:
+        raise Exception("Imagem {image_path} nao localizada.".format(image_path=image_path))
+
     image_np = load_image_into_numpy_array(image)
 
     # Expand dims to create  bach of size 1
