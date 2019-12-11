@@ -1,75 +1,99 @@
 import base64
 import json
+import os
+import time
 from io import BytesIO
+from os import listdir
+from os.path import isfile, join
 
 import numpy as np
 import requests
 import tensorflow as tf
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
+from PIL import Image
+from tensorflow.contrib import util as contrib_util
 from tensorflow.keras.applications import inception_v3
 from tensorflow.keras.preprocessing import image
 
-from img_utils import pre_process
-
-# from flask_cors import CORS
+from tensorflow_scripts.utils import img_util, label_map_util
+from tensorflow_scripts.utils.label_util import load_labels
 
 app = Flask(__name__)
 
-
-# Uncomment this line if you are making a Cross domain request
-# CORS(app)
-
-# Testing URL
-@app.route('/hello/', methods=['GET', 'POST'])
-def hello_world():
-    return 'Hello, World!'
-
-
-@app.route('/vera_species/', methods=['POST'])
+@app.route('/vera_species/classify/', methods=['POST'])
 def image_classifier():
-    
+    server_url = "http://localhost:8501/v1/models/vera_species:predict"
+    label_file = 'models/vera_species/vera_species_labels.txt'
+    # TODO: Utilizar try/catch para registro de logs e garantir que as requisições vieram parametrizadas corretamente
+    prediction = {}
+    prediction['id'] = request.json['id']
+    prediction['type'] = "species_classification"
+    prediction['images'] = []
+
     # Obtém a imagem a partir do url path informado pelo cliente:
-    # Converte o arquivo num float array
-    response = request.json['data']
-    formatted_json_input = pre_process(response)
+    for image_path in request.json['images']:
+        # Converte o arquivo num float array
+        formatted_json_input = img_util.classification_pre_process(image_path)
 
-    #TODO: Verificar se essa linha é necessária
-    # this line is added because of a bug in tf_serving(1.10.0-dev)
-    #img = img.astype('float16')
+        # Call tensorflow server
+        headers = {"content-type": "application/json"}
+        print(f'\n\nMaking request to {server_url}...\n')
+        server_response = requests.post(server_url, data=formatted_json_input, headers=headers)
+        print(f'Request returned\n')
+        print(server_response)
 
+        # Decoding results from TensorFlow Serving server
+        pred = json.loads(server_response.content.decode('utf-8'))
 
-    # Making POST request
-    headers = {"content-type": "application/json"}
-    response = requests.post(
-        'http://localhost:8501/v1/models/vera_species:predict', headers=headers, data=formatted_json_input)
+        predictions = np.squeeze(pred['predictions'][0])
+        
+        results = []
+        top_k = predictions.argsort()[-5:][::-1]
+        labels = load_labels(label_file)
+        for i in top_k:
+            label = labels[i]
+            score = float(predictions[i])
+            results.append('{label},{score}'.format(label=label,score=score))
 
-    # Decoding results from TensorFlow Serving server
-    pred = json.loads(response.content.decode('utf-8'))
+        #Se a classificação ocorreu sem erros, inclui-la no objeto de retorno
+        # image_name = os.path.basename(image_path)
+        prediction['images'].append('{image_path}:{results}'.format(image_path=image_path,results=results))
 
     # Returning JSON response to the frontend
-    return jsonify(inception_v3.decode_predictions(np.array(pred['predictions']))[0])
+    return jsonify(prediction)
 
 
-# @app.route('/imageclassifier/predict/', methods=['POST'])
-# def image_classifier():
-#     # Decoding and pre-processing base64 image
-#     img = image.img_to_array(image.load_img(BytesIO(base64.b64decode(request.form['b64'])),
-#                                             target_size=(224, 224))) / 255.
+@app.route('/vera_poles_trees/detect/', methods=['POST'])
+def object_detection():
+    label_file = 'models/vera_poles_trees/vera_poles_trees_labels.pbtxt'
+    server_url = "http://localhost:8501/v1/models/vera_poles_trees:predict"
 
-#     # this line is added because of a bug in tf_serving(1.10.0-dev)
-#     img = img.astype('float16')
+    #Objeto de resposta:
+    prediction = {}
+    prediction['id'] = request.json['id']
+    prediction['type'] = "poles_trees_detection"
+    prediction['images'] = []
 
-#     # Creating payload for TensorFlow serving request
-#     payload = {
-#         "instances": [{'input_image': img.tolist()}]
-#     }
+    for image_path in request.json['images']:
+        # Build input data
+        print(f'\n\nPre-processing input file {image_path}...\n')
+        formatted_json_input = img_util.object_detection_pre_process(image_path)
+        print('Pre-processing done! \n')
 
-#     # Making POST request
-#     r = requests.post(
-#         'http://localhost:9000/v1/models/ImageClassifier:predict', json=payload)
+        # Call tensorflow server
+        headers = {"content-type": "application/json"}
+        print(f'\n\nMaking request to {server_url}...\n')
+        server_response = requests.post(server_url, data=formatted_json_input, headers=headers)
+        print(f'Request returned\n')
+        print(server_response)
 
-#     # Decoding results from TensorFlow Serving server
-#     pred = json.loads(r.content.decode('utf-8'))
+        # Post process output
+        print(f'\n\nPost-processing server response...\n')
+        image = Image.open(image_path).convert("RGB")
+        image_np = img_util.load_image_into_numpy_array(image)
+        output_dict = img_util.post_process(server_response, image_np.shape, label_file)
+        print(f'Post-processing done!\n')
 
-#     # Returning JSON response to the frontend
-#     return jsonify(inception_v3.decode_predictions(np.array(pred['predictions']))[0])
+        prediction['images'].append('{image_path}:{results}'.format(image_path=image_path,results=output_dict))
+
+    return prediction
