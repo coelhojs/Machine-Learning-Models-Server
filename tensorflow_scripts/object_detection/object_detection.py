@@ -1,3 +1,4 @@
+import json
 import os
 import pathlib
 import sys
@@ -52,10 +53,10 @@ def objects_detector(images_list, model_path, labels):
 def run_inference_for_single_image(graph, image_path, labels):
     with graph.as_default():
         with tf.compat.v1.Session() as sess:
-                try:
-                    image = Image.open(image_path).convert("RGB")
-                except:
-                    raise Exception("Imagem {image_path} nao localizada.".format(image_path=image_path))
+            try:
+                image = Image.open(image_path).convert("RGB")
+            except:
+                raise Exception("Imagem {image_path} nao localizada.".format(image_path=image_path))
 
             # Get handles to input and output tensors
             ops = tf.compat.v1.get_default_graph().get_operations()
@@ -108,6 +109,11 @@ def run_inference_for_single_image(graph, image_path, labels):
 
             output_dict = img_util.post_process(output_dict, image_np.shape, labels)
 
-            output_dict['detection_boxes'] = output_dict['detection_boxes'].tolist()
+    inference_dict = {}
+    inference_dict['ImagePath'] = image_path
+    inference_dict['Class'] = output_dict['detection_classes']
+    inference_dict['BoundingBoxes'] = output_dict['detection_boxes'].tolist()
+    inference_dict['Score'] = np.array(output_dict['detection_scores']).tolist()
+    inference_dict['NumDetections'] = output_dict['num_detections']
 
-    return output_dict
+    return inference_dict

@@ -24,13 +24,12 @@ app = Flask(__name__)
 @app.route('/vera_species/classify/', methods=['POST'])
 def species_classifier():
     # TODO: Utilizar try/catch para registro de logs e garantir que as requisições vieram parametrizadas corretamente
-    prediction = {}
-    prediction['id'] = request.json['id']
-    prediction['type'] = "species_classification"
-    prediction['images'] = []
-
     #Tenta conexão com Tensorflow Serving, se não conseguir conectar, usar script local:
     try:
+        prediction = {}
+        prediction['RequestId'] = request.json['Id']
+        prediction['type'] = "Species_classification"
+        prediction['Detections'] = []
         
         #test_request
         requests.get("http://localhost:8501/v1/models/vera_species")
@@ -41,7 +40,7 @@ def species_classifier():
         print("Tensorflow Serving detectado. Utilizando para classificação")
 
         # Obtém a imagem a partir do url path informado pelo cliente:
-        for image_path in request.json['images']:
+        for image_path in request.json['Images']:
 
             # Converte o arquivo num float array
             formatted_json_input = img_util.classification_pre_process(image_path)
@@ -65,14 +64,14 @@ def species_classifier():
                 results.append('{label},{score}'.format(label=label,score=score))
 
         #Se a classificação ocorreu sem erros, inclui-la no objeto de retorno
-        prediction['images'].append('{image_path}:{results}'.format(image_path=image_path,results=results))
+        prediction['Detections'].append('{image_path}:{results}'.format(image_path=image_path,results=results))
 
     except:
         print("Tensorflow Serving não detectado. Utilizando scripts locais")
 
         label_file = 'C:/Machine-Learning-Models-Server/models_inference/vera_species/vera_species_labels.txt'
         model_path = 'C:/Machine-Learning-Models-Server/models_inference/vera_species/1/retrained_graph.pb'
-        prediction['images'] = image_classifier(request.json['images'], model_path, label_file)
+        prediction['Detections'] = image_classifier(request.json['Images'], model_path, label_file)
 
     # Returning JSON response to the frontend
     return jsonify(prediction)
@@ -81,20 +80,20 @@ def species_classifier():
 @app.route('/vera_poles_trees/detect/', methods=['POST'])
 def object_detection():
 
-    #Objeto de resposta:
-    prediction = {}
-    prediction['id'] = request.json['id']
-    prediction['type'] = "poles_trees_detection"
-    prediction['images'] = []
-
     try:
+        #Objeto de resposta:
+        prediction = {}
+        prediction['RequestId'] = request.json['Id']
+        prediction['type'] = "poles_trees_detection"
+        prediction['Detections'] = []
+
         #handshake?
         requests.get("http://localhost:8501/v1/models/vera_poles_trees")
         
         label_file = 'models/vera_poles_trees/vera_poles_trees_labels.pbtxt'
         server_url = "http://localhost:8501/v1/models/vera_poles_trees:predict"
 
-        for image_path in request.json['images']:
+        for image_path in request.json['Images']:
             # Build input data
             print(f'\n\nPre-processing input file {image_path}...\n')
             formatted_json_input = img_util.object_detection_pre_process(image_path)
@@ -112,9 +111,19 @@ def object_detection():
             image = Image.open(image_path).convert("RGB")
             image_np = img_util.load_image_into_numpy_array(image)
             output_dict = img_util.post_process(server_response, image_np.shape, img_util.load_labels(label_file))
+
+            # Formatando resultado para o modelo esperado pelo Vera
+            inference_dict = {}
+            inference_dict['ImagePath'] = image_path
+            inference_dict['Class'] = output_dict['detection_classes']
+            inference_dict['BoundingBoxes'] = output_dict['detection_boxes']
+            inference_dict['Score'] = np.array(output_dict['detection_scores']).tolist()
+            inference_dict['NumDetections'] = output_dict['num_detections']
+
             print(f'Post-processing done!\n')
 
-            prediction['images'].append('{image_path}:{results}'.format(image_path=image_path,results=output_dict))
+
+            prediction['Detections'].append(inference_dict)
     
         return jsonify(prediction)
 
@@ -124,9 +133,10 @@ def object_detection():
         label_file = 'C:/Machine-Learning-Models-Server/models_inference/vera_poles_trees/vera_poles_trees_labels.pbtxt'
         model_path = 'C:/Machine-Learning-Models-Server/models_inference/vera_poles_trees/1/frozen_inference_graph.pb'
         
-        images_predictions = objects_detector(request.json['images'], model_path, img_util.load_labels(label_file))
+        images_predictions = objects_detector(request.json['Images'], model_path, img_util.load_labels(label_file))
 
         for x in range(len(images_predictions)):
-            prediction['images'].append('{image_path}:{results}'.format(image_path=request.json['images'][x],results=images_predictions[x]))
+            prediction['Detections'].append(images_predictions[x])
+
 
         return jsonify(prediction)
