@@ -115,9 +115,9 @@ def object_detection():
             # Formatando resultado para o modelo esperado pelo Vera
             inference_dict = {}
             inference_dict['ImagePath'] = image_path
-            inference_dict['Class'] = output_dict['detection_classes']
+            inference_dict['Classes'] = output_dict['detection_classes']
             inference_dict['BoundingBoxes'] = output_dict['detection_boxes']
-            inference_dict['Score'] = np.array(output_dict['detection_scores']).tolist()
+            inference_dict['Scores'] = np.array(output_dict['detection_scores']).tolist()
             inference_dict['NumDetections'] = output_dict['num_detections']
 
             print(f'Post-processing done!\n')
