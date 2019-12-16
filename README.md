@@ -10,7 +10,11 @@ https://github.com/tensorflow/tensorflow/issues/18503#issuecomment-385624410
 	
 ### Ativação do ambiente virtual:
 	
+	WINDOWS:
 	env\models_server\Scripts\activate
+	LINUX:
+	source ./env/models_server/bin/activate
+
 	
 ### Instalar o Flask e dependências do projeto:
 
