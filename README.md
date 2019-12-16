@@ -9,11 +9,12 @@ https://github.com/tensorflow/tensorflow/issues/18503#issuecomment-385624410
 	python -m venv env/models_server
 	
 ### Ativação do ambiente virtual:
-	
-	WINDOWS:
-	env\models_server\Scripts\activate
+	WINDOWS Anaconda:
+		conda activate models_server
+	WINDOWS Venv:
+		env\models_server\Scripts\activate
 	LINUX:
-	source ./env/models_server/bin/activate
+		source ./env/models_server/bin/activate
 
 	
 ### Instalar o Flask e dependências do projeto:
@@ -26,7 +27,4 @@ https://github.com/tensorflow/tensorflow/issues/18503#issuecomment-385624410
 
 ### Para testar, com o servidor e o TF-Serving ativo:
 
-	curl --request POST --url http:/localhost:5000/vera_species/classify --header 'content-type: application/json' --data '{"data": "c:\\development\\tensorflow-serving\\mangueira.jpg"}'
-
-
-	curl --request POST --url http://localhost:5000/vera_poles_trees/detect --header 'content-type: application/json' --data '{"data": "C:/Machine-Learning-Models-Server/test_images/1.png"}'
+	

@@ -3,7 +3,10 @@ import requests
 
 def send_object_detection_results (result):
     try:
-        headers = {"content-type": "application/json"}
+
+        token = result['UserToken']
+
+        headers = {"content-type": "application/json", "authorization": "bearer {token}".format(token=token)}
         server_url = 'http://localhost:3857/MachineLearning/Poles_Trees_Results'
         print(f'\n\nEnviando resultados para {server_url}...\n')
         server_response = requests.post(server_url, data=result, headers=headers)

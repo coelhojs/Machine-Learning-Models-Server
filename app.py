@@ -6,6 +6,7 @@ import time
 from io import BytesIO
 from os import listdir
 from os.path import isfile, join
+from threading import Thread
 
 import numpy as np
 import requests
@@ -148,7 +149,7 @@ def object_detection_simple():
 
 
 @app.route('/vera_poles_trees/detect_batch/', methods=['POST'])
-def object_detection_bath():
+def object_detection_batch():
 
     labels = img_util.load_labels('models/vera_poles_trees/vera_poles_trees_labels.pbtxt')
     model_inference = 'C:/Machine-Learning-Models-Server/models_inference/vera_poles_trees/1/frozen_inference_graph.pb'
@@ -158,22 +159,25 @@ def object_detection_bath():
     list_size = 50
             
     splitted_list_images = [request.json['Images'][i * list_size:(i + 1) * list_size] for i in range((len(request.json['Images']) + list_size - 1) // list_size )]  
-    print (splitted_list_images) 
 
     #Objeto de resposta:
     prediction = {}
     prediction['RequestId'] = request.json['Id']
-    prediction['type'] = "poles_trees_detection"
+    prediction['Type'] = "poles_trees_detection"
+    prediction['UserToken'] = request.json['UserToken']
     
     try:
         #handshake?
         requests.get("http://localhost:8501/v1/models/vera_poles_trees")
       
-        await object_detection_batch_serving(prediction_obj, splitted_list_images, model_path, labels, server_url)
+        task = Thread(target=object_detection_batch_serving(prediction_obj, splitted_list_images, model_path, labels, server_url))
 
     except:
         print("Tensorflow Serving não detectado. Utilizando scripts locais")
 
-        await object_detection_batch_script(prediction, splitted_list_images, model_inference, labels)
-        
-    return "Detecção em lote iniciada"
+        task = Thread(target=object_detection_batch_script(prediction, splitted_list_images, model_inference, labels))
+
+    finally:
+        task.daemon = True
+        task.start()
+        return "Detecção em lote iniciada"

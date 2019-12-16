@@ -5,7 +5,7 @@ from tensorflow_scripts.utils import img_util, label_map_util
 from tensorflow_scripts.object_detection.object_detection import objects_detector
 from responses import send_object_detection_results
 
-async def object_detection_batch_serving(prediction_obj, splitted_list_images, model_path, labels, server_url):
+def object_detection_batch_serving(prediction_obj, splitted_list_images, model_path, labels, server_url):
     try:
         for list_images in splitted_list_images:
             for image_path in list_images:
@@ -46,7 +46,7 @@ async def object_detection_batch_serving(prediction_obj, splitted_list_images, m
     except:
         return "Houve um erro na detecção de objetos em lote"
 
-async def object_detection_batch_script(prediction_obj, splitted_list_images, model_path, labels):
+def object_detection_batch_script(prediction_obj, splitted_list_images, model_path, labels):
     try:
         for list_images in splitted_list_images:
             #Limpa a lista de resultados antes de iniciar um lote de detecções
