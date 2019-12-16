@@ -1,3 +1,4 @@
+import asyncio
 import base64
 import json
 import os
@@ -14,8 +15,12 @@ from tensorflow.contrib import util as contrib_util
 from tensorflow.keras.applications import inception_v3
 from tensorflow.keras.preprocessing import image
 
-from tensorflow_scripts.image_classification.label_image import image_classifier
-from tensorflow_scripts.object_detection.object_detection import objects_detector
+from object_detection_caller import (object_detection_batch_script,
+                                     object_detection_batch_serving)
+from tensorflow_scripts.image_classification.label_image import \
+    image_classifier
+from tensorflow_scripts.object_detection.object_detection import \
+    objects_detector
 from tensorflow_scripts.utils import img_util, label_map_util
 from tensorflow_scripts.utils.label_util import load_labels
 
@@ -77,8 +82,8 @@ def species_classifier():
     return jsonify(prediction)
 
 
-@app.route('/vera_poles_trees/detect/', methods=['POST'])
-def object_detection():
+@app.route('/vera_poles_trees/detect_simple/', methods=['POST'])
+def object_detection_simple():
 
     try:
         #Objeto de resposta:
@@ -140,3 +145,35 @@ def object_detection():
 
 
         return jsonify(prediction)
+
+
+@app.route('/vera_poles_trees/detect_batch/', methods=['POST'])
+def object_detection_bath():
+
+    labels = img_util.load_labels('models/vera_poles_trees/vera_poles_trees_labels.pbtxt')
+    model_inference = 'C:/Machine-Learning-Models-Server/models_inference/vera_poles_trees/1/frozen_inference_graph.pb'
+    server_url = "http://localhost:8501/v1/models/vera_poles_trees:predict"
+
+    #Quebra a lista de imagens em sublistas de determinado tamanho:
+    list_size = 50
+            
+    splitted_list_images = [request.json['Images'][i * list_size:(i + 1) * list_size] for i in range((len(request.json['Images']) + list_size - 1) // list_size )]  
+    print (splitted_list_images) 
+
+    #Objeto de resposta:
+    prediction = {}
+    prediction['RequestId'] = request.json['Id']
+    prediction['type'] = "poles_trees_detection"
+    
+    try:
+        #handshake?
+        requests.get("http://localhost:8501/v1/models/vera_poles_trees")
+      
+        await object_detection_batch_serving(prediction_obj, splitted_list_images, model_path, labels, server_url)
+
+    except:
+        print("Tensorflow Serving não detectado. Utilizando scripts locais")
+
+        await object_detection_batch_script(prediction, splitted_list_images, model_inference, labels)
+        
+    return "Detecção em lote iniciada"
