@@ -6,7 +6,7 @@ Docker for Windows:
 	Incompatível com Windows Server
 
 Docker Engine - Enterprise:
-	Versão estável atual não suporta containeres Windows
+	Versão estável atual não suporta containeres Linux
 
 Docker Engine - Enterprise Preview:
 	Preciso testar 

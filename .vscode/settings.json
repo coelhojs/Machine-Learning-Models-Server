@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Machine-Learning-Models-Server\\env\\models_server\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\cristiano.souza\\.conda\\envs\\models_server\\python.exe",
     // "python.pythonPath": "/home/cristiano/development/Machine-Learning-Models-Server/env/models_server/bin/python3",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,

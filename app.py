@@ -79,7 +79,7 @@ def species_classifier():
 
 @app.route('/vera_poles_trees/detect/', methods=['POST'])
 def object_detection():
-
+    
     try:
         #Objeto de resposta:
         prediction = {}
@@ -133,10 +133,28 @@ def object_detection():
         label_file = 'C:/Machine-Learning-Models-Server/models_inference/vera_poles_trees/vera_poles_trees_labels.pbtxt'
         model_path = 'C:/Machine-Learning-Models-Server/models_inference/vera_poles_trees/1/frozen_inference_graph.pb'
         
-        images_predictions = objects_detector(request.json['Images'], model_path, img_util.load_labels(label_file))
+        #imagesList = request.json['Images']
+		
+        #validated_req = validate_paths(imagesList)
+		
+        #request.json['Images'] = validated_req
+		
+        images_predictions = objects_detector(validate_paths(request.json['Images'], request.remote_addr), model_path, img_util.load_labels(label_file))
 
         for x in range(len(images_predictions)):
             prediction['Detections'].append(images_predictions[x])
 
 
         return jsonify(prediction)
+
+def validate_paths(images, remote_addr):
+    newList = []
+    for imagepath in images:
+        if ("C:" in imagepath):
+            newPath = imagepath.replace(
+                "C:/", "//{remote_addr}/c/".format(remote_addr=remote_addr))
+        elif ("c:" in imagepath):
+            newPath = imagepath.replace(
+                "c:/", "//{remote_addr}/c/".format(remote_addr=remote_addr))
+        newList.append(newPath)
+    return newList
